@@ -9,7 +9,7 @@ class MidiHandler:
         self.output = mido.open_output('pympe', virtual=True)
         self.notes = [] # list of messages with all midi info
         self.channels = [] # list of channels in use
-
+        self.mapper = NoteMapper(self.output)
 
     def process_message(self, message):
 
@@ -36,8 +36,8 @@ class MidiHandler:
                     self.notes.remove(note)
                     break
 
-        elif message.type == "control_change" and message.control == 1:
-
+        elif message.type == "control_change" and message.control==1:
+            self.mapper.bend(message, self.notes)
 
         else:
             self.output.send(message)
