@@ -1,17 +1,24 @@
+import mido
+
 from app.midi.midi_handler import MidiHandler
-from app.synth.synth import Synth
-from app.audio.audio import AudioOut
+from app.utils.mapper import NoteMapper
+from app.gui.gui import PympeFrontend
+import tkinter as tk
 
 def main():
-     # synth = Synth()
-     midi = MidiHandler('Arturia KeyStep 37 MIDI 1')
-     # audio = AudioOut()
-     # audio.enable(synth)
 
-     while True:
-         pass
-     midi.port.close()
-     midi.output.close()
+    output = mido.open_output('pympe', virtual=True)
+    mapper = NoteMapper(output)
+    midi = MidiHandler('Arturia KeyStep 37 MIDI 1', output, mapper)
+
+    root = tk.Tk()
+
+    PympeFrontend(root).pack(side="top", fill="both", expand=True)
+
+    root.mainloop()
+
+    midi.port.close()
+    midi.output.close()
 
 if __name__ == "__main__":
     main()

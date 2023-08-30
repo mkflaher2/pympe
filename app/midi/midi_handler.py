@@ -1,15 +1,12 @@
 import mido
 
-from app.synth.synth import Synth
-from app.utils.mapper import NoteMapper
-
 class MidiHandler:
-    def __init__(self, device):
+    def __init__(self, device, output, note_mapper):
         self.port = mido.open_input(device, callback=self.process_message)
-        self.output = mido.open_output('pympe', virtual=True)
         self.notes = [] # list of messages with all midi info
         self.channels = [] # list of channels in use
-        self.mapper = NoteMapper(self.output)
+        self.output = output
+        self.mapper = note_mapper
 
     def process_message(self, message):
 
