@@ -13,7 +13,7 @@ def main():
 
     root = tk.Tk()
 
-    PympeFrontend(root).pack(side="top", fill="both", expand=True)
+    PympeFrontend(root, mapper).pack(side="top", fill="both", expand=True)
 
     root.mainloop()
 
